@@ -39,7 +39,7 @@ export default function Editcar(props){
       }
 
       const editCar = () => {
-         
+          console.log(props.car._links)
           props.editCar(car, props.car._links.car.href); 
           handleClose(); 
       }

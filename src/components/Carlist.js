@@ -17,13 +17,13 @@ export default function Carlist() {
         fetch('https://carstockrest.herokuapp.com/cars')
         .then(response => response.json())
         .then(data => {
-            setCars(data._embedded.cars)}); 
-        console.log(cars); 
+            setCars(data._embedded.cars)});  
     }
 
     useEffect(() => fetchData(), []);
 
     const deleteCar = (link) => {
+        console.log(link); 
         if(window.confirm('Are you sure you wnant to delete car?')){ 
             fetch(link, {method: 'DELETE'})
             .then(res => fetchData())
@@ -44,7 +44,7 @@ export default function Carlist() {
     }
 
     const editCar = (car, link) => {
-        console.log(car); 
+
         fetch(link, {
             method: 'PUT',
             headers: {
@@ -64,7 +64,8 @@ export default function Carlist() {
         { headerName: 'Fuel', field: 'fuel', filter: true, sortable: true },
         { headerName: 'Year', field: 'year', filter: true, sortable: true },
         { headerName: 'Price', field: 'price', filter: true, sortable: true }, 
-        { headerName: '', cellRendererFramework: (params) => <Editcar editCar={editCar} car={gridRef.current.getSelectedNodes()[0].data} /> },
+        {headerName: 'Edit', cellRendererFramework: function(params) {
+            return <Editcar editCar={editCar} car={params.data} /> }},            
         { headerName: '', field: '_links.self.href', 
         cellRendererFramework: (params) =><div><Button color="error" size="small" onClick={()=>deleteCar(params.value)}>Delete</Button></div> }
     ]
